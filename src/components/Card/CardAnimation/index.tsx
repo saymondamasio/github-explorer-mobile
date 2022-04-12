@@ -5,8 +5,8 @@ import {
   useSharedValue,
   withTiming
 } from 'react-native-reanimated';
-
 import { AnimationContainer } from './styles';
+
 
 interface CardAnimationProps extends ViewProps {
   children: React.ReactNode;
@@ -20,6 +20,8 @@ export function CardAnimation({ children, ...rest }: CardAnimationProps) {
   const animatedStyle = useAnimatedStyle(() => {
     return {
       // TODO - setup animated style
+      opacity: cardOpacity.value,
+      transform: [{translateX: cardOffset.value}]
     }
   })
 
@@ -28,6 +30,8 @@ export function CardAnimation({ children, ...rest }: CardAnimationProps) {
      * TODO - setup cardOpacity.value and cardOffset.value with
      * withTiming()
      */
+    cardOpacity.value = withTiming(1, {duration: 1000})
+    cardOffset.value = withTiming(0, {duration: 1000})
   }, []);
 
   return (

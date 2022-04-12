@@ -1,22 +1,15 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useRef, useState } from 'react';
 import { TextInput } from 'react-native';
-
 import { Background } from '../../components/Background';
 import { Card } from '../../components/Card';
-
 import { useRepositories } from '../../hooks/useRepositories';
-
 import {
-  Container,
-  AddGithubRepo,
-  Title,
-  Input,
-  InputField,
-  InputButton,
-  Icon,
-  RepositoriesList
+  AddGithubRepo, Container, Icon, Input, InputButton, InputField, RepositoriesList, Title
 } from './styles';
+
+
+
 
 export function Dashboard() {
   const [inputText, setInputText] = useState('');
@@ -33,6 +26,10 @@ export function Dashboard() {
      * - clean inputText value.
      */
     inputRef.current?.blur();
+
+    addRepository(inputText)
+
+    setInputText('')
   }
 
   function handleRepositoryPageNavigation(id: number) {
@@ -44,7 +41,9 @@ export function Dashboard() {
      *  repositoryId: id of the repository
      * })
      */
+    navigate('Repository', { repositoryId: id })
   }
+
 
   return (
     <Background>
@@ -62,6 +61,7 @@ export function Dashboard() {
                * changes:
                * onChangeText={YOUR CODE HERE}
                */
+              onChangeText={setInputText}
               onSubmitEditing={handleAddRepository}
               returnKeyType="send"
               autoCapitalize='none'
@@ -76,6 +76,7 @@ export function Dashboard() {
              * empty (use disabled prop to this):
              * disabled={CONDITION HERE}
              */
+            disabled={inputText.trim().length === 0}
             >
               <Icon name="search" size={20} />
             </InputButton>
